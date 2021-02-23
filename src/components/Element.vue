@@ -1,6 +1,7 @@
 <template>
-    <vue-draggable-resizable :w="100" :h="100" :x="100" :y="100" :grid="grid" @dragging="onDrag" @resizing="onResize" @rotating="onRotate" :parent="true">
-      <p>{{ msg }}</p>
+    <vue-draggable-resizable :w="Element.w" :h="Element.h" :x="Element.x" :y="Element.y" :grid="Element.grid" @dragging="onDrag" @resizing="onResize" :parent="true">
+      <div style="height: 100%;width:100%" v-html="Element.code"> </div>
+
     </vue-draggable-resizable>
 
 </template>
@@ -10,8 +11,7 @@
 export default {
   name:"Element",
   props: {
-    msg: String,
-    grid: Array,
+    Element: Object
   },
   data: function () {
     return {
@@ -33,9 +33,6 @@ export default {
       this.x = x
       this.y = y
     },
-    onRotate: function () {
-      this.rotation= 4000000
-    }
   }
 }
 </script>

@@ -1,18 +1,22 @@
 <template>
-  <div id="app">
-    <Cadre></Cadre>
+  <div id="app" style="display: flex">
+      <Cadre></Cadre>
+    <div class="toolbar>">
+      <tool-bar></tool-bar>
+    </div>
   </div>
 
 </template>
 
 <script>
 import Cadre from "@/components/Cadre";
+import ToolBar from "@/components/ToolBar";
 
 export default {
   name: 'App',
   components: {
+    ToolBar,
     Cadre,
-
   }
 }
 </script>
