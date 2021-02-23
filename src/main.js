@@ -8,6 +8,10 @@ Vue.config.productionTip = false
 Vue.component('vue-draggable-resizable', VueDragDropAlign)
 Vue.use( CKEditor );
 
+import vClickOutside from 'v-click-outside'
+
+Vue.use(vClickOutside)
+
 new Vue({
   render: h => h(App),
 }).$mount('#app')

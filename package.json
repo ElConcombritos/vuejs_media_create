@@ -8,7 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^25.0.0",
+    "@ckeditor/ckeditor5-build-balloon": "^25.0.0",
     "@ckeditor/ckeditor5-build-classic": "^25.0.0",
+    "@ckeditor/ckeditor5-build-inline": "^25.0.0",
+    "@ckeditor/ckeditor5-essentials": "^25.0.0",
+    "@ckeditor/ckeditor5-font": "^25.0.0",
+    "@ckeditor/ckeditor5-link": "^25.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^25.0.0",
     "@ckeditor/ckeditor5-vue2": "^1.0.5",
     "@xpf0000/vuedragdropalign": "^1.0.3",
     "core-js": "^3.6.5",
@@ -18,6 +25,7 @@
     "v-click-outside": "^3.1.2",
     "vue": "^2.6.11",
     "vue-click-outside": "^1.1.0",
+    "vue-quill-editor": "^3.0.6",
     "vuejs-quill": "^1.4.0"
   },
   "devDependencies": {
