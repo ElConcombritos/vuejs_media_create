@@ -1,7 +1,6 @@
 <template>
     <vue-draggable-resizable :w="Element.w" :h="Element.h" :x="Element.x" :y="Element.y" :grid="Element.grid" @dragging="onDrag" @resizing="onResize" :parent="true">
       <div style="height: 100%;width:100%" v-html="Element.code"> </div>
-
     </vue-draggable-resizable>
 
 </template>

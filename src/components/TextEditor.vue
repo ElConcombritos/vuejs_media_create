@@ -1,36 +1,65 @@
 <template>
-    <vue-draggable-resizable v-on:click="selectElement()" :drag-cancel="'.cancel'" :resizable="true" :draggable="true" :parent="true">
-      <div v-click-outside="onClickOutside" style="height:100%" v-on:dblclick="selectElement()" v-bind:class="{ 'cancel': this.isClicked }">
-        <ckeditor style="height:100%" :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+  <vue-draggable-resizable v-on:click="selectElement()" :drag-cancel="'.cancel'" :resizable="true" :draggable="true" :parent="true">
+  <div v-click-outside="onClickOutside" style="height:100%" v-on:dblclick="selectElement()" v-bind:class="{ 'cancel': this.isClicked }">
+        <quill-editor style="height: 100%"
+            ref="quillEditor"
+            class="editor"
+            v-model="content"
+            :options="editorOption"
+            @blur="onEditorBlur($event)"
+            @focus="onEditorFocus($event)"
+            @ready="onEditorReady($event)"
+        />
+        <br>
       </div>
-    </vue-draggable-resizable>
+  </vue-draggable-resizable>
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-inline';
 import vClickOutside from 'v-click-outside'
 
+/*const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  ['blockquote', 'code-block'],
+
+  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+  [{ 'direction': 'rtl' }],                         // text direction
+
+  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+
+  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  [{ 'font': [] }],
+  [{ 'align': [] }],
+
+  ['clean']                                         // remove formatting button
+];*/
+
 export default {
+  props: {
+    Text: Object
+  },
   data() {
     return {
       isClicked : false,
-      editor: ClassicEditor,
-      editorData: '<p>Content of the editor.</p>',
-      editorConfig: {
-        fontFamily: {
-          options: [
-            'default',
-            'Ubuntu, Arial, sans-serif',
-            'Ubuntu Mono, Courier New, Courier, monospace'
-          ]
+      content: '<p>I\'m vue-quill-editor example</p>',
+      toolbar : ".toolbar"+this.Text.id,//marche pas quand on l'utilise pour définir le container de la toolbar
+      editorOption: {
+        theme: 'snow',
+        modules: {
+          toolbar: ".toolbar"+this.Text.id,//mais ça ça marche, c'est suspect
+          //toolbar: toolbarOptions,
         },
-        toolbar: [ 'bold', 'italic','link','fontFamily' ]
       }
     };
   },
   methods : {
     selectElement : function() {
       console.log('selected')
+      console.log(this.toolbar)
+      this.$emit("selectedTextEditor",this.Text.id)
       this.isClicked = true;
     },
     unselectElement : function() {
@@ -39,8 +68,33 @@ export default {
     },
     onClickOutside (event) {
       console.log('Clicked outside. Event: ', event)
-      this.isClicked = false;
+      let isClickInToolbar = false;
+      for (let i in event.path) {
+        if (event.path[i].id != undefined) {
+          if (event.path[i].id == "toolbar") {
+            isClickInToolbar = true;
+          }
+        }
+      }
+      if (!isClickInToolbar) {
+        this.isClicked = false;
+        //this.$emit("unselectedTextEditor",this.Text.id)
+      }
 
+    },
+    onEditorBlur(quill) {
+      console.log('editor blur!', quill)
+    },
+    onEditorFocus(quill) {
+      console.log('editor focus!', quill)
+    },
+    onEditorReady(quill) {
+      console.log('editor ready!', quill)
+    }
+  },
+  computed: {
+    editor() {
+      return this.$refs.quillEditor.quill
     }
   },
   directives: {
@@ -48,3 +102,11 @@ export default {
   },
 }
 </script>
+
+<style>
+.ql-tooltip {
+  width: 1000px !important;
+  position: absolute;
+  margin-top: 10%;
+}
+</style>

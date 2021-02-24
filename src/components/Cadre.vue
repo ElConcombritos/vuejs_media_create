@@ -1,13 +1,17 @@
 <template>
   <div
-      style="font-size:10%;height: 540px; width: 960px; border: 1px solid #ff0000; position: relative;" @click="SetFalseForAllTextEditor">
+      style="font-size:10%;height: 540px; width: 960px; border: 1px solid #ff0000; position: relative;"
+      @click="SetFalseForAllTextEditor">
     <!--<Element v-bind:grid="[20,20]" msg="truc 1"/>
     <Element v-bind:grid="[80,80]" msg="truc 2"/>
     <Element v-bind:grid="[1,1]" msg="truc 3"/>-->
     <Element v-for="Element in Elements" :key="Element.id"
              :Element="Element"/>
-    <text-editor v-on:dblclicked="onClicktextEditor" v-for="text in Texts" :key="text.id"
-             :text="text"/>
+
+    <text-editor v-on:dblclicked="onClicktextEditor" v-on:selectedTextEditor="selectedTextEditor"
+                 v-on:unselectedTextEditor="unselectedTextEditor" v-for="text in Texts" :key="text.id"
+                 :text="text"/>
+
   </div>
 </template>
 
@@ -16,7 +20,9 @@
 const Texts = [
   {
     id: 0,
-    clicked : false,
+  },
+  {
+    id: 1,
   },
 ]
 
@@ -28,8 +34,8 @@ const Elements = [
     y: 100,
     h: 100,
     w: 100,
-    clicked : false,
-    code:"<p>Truc 1</p>",
+    clicked: false,
+    code: "<p>Truc 1</p>",
   }, {
     id: 2,
     grid: [1, 1],
@@ -37,7 +43,7 @@ const Elements = [
     y: 400,
     h: 100,
     w: 100,
-    code:"<p>Truc 2</p>"
+    code: "<p>Truc 2</p>"
 
   }, {
     id: 3,
@@ -46,7 +52,7 @@ const Elements = [
     y: 100,
     h: 100,
     w: 100,
-    code:"<p>Truc 3</p>"
+    code: "<p>Truc 3</p>"
 
   }, {
     id: 4,
@@ -55,7 +61,7 @@ const Elements = [
     y: 200,
     h: 100,
     w: 100,
-    code:'<img style="width:100%;height:100%" src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg">'
+    code: '<img style="width:100%;height:100%" src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg">'
 
   },
   {
@@ -65,7 +71,7 @@ const Elements = [
     y: 300,
     h: 100,
     w: 100,
-    code:'<img style="width:100%;height:100%" src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg">'
+    code: '<img style="width:100%;height:100%" src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg">'
 
   },
 ]
@@ -85,14 +91,21 @@ export default {
       Elements,
     };
   },
-  methods : {
-    SetFalseForAllTextEditor : function() {
+  methods: {
+    SetFalseForAllTextEditor: function () {
       //this.$set(this.Texts[0],'clicked', false)
     },
-    onClicktextEditor : function(idText) { //idText = l'id correspondant à l'editor dans le tableau Text
+    onClicktextEditor: function (idText) { //idText = l'id correspondant à l'editor dans le tableau Text
       console.log("select")
-      this.$set(this.Texts[idText],'clicked', true)
+      this.$set(this.Texts[idText], 'clicked', true)
 
+    },
+    selectedTextEditor: function (idText) {
+      console.log("coucoucoucou")
+      this.$emit("selectedTextEditor", idText)
+    },
+    unselectedTextEditor: function (idText) {
+      this.$emit("unselectedTextEditor", idText)
     }
   }
 }
