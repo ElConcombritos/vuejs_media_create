@@ -1,5 +1,5 @@
 <template>
-  <div id="toolbar" :class="'toolbar'+Text.id" :style="style">
+  <div id="toolbar" :class="'toolbar'+Text.id" style="width: 8%" :style="style">
     <!-- Add font size dropdown -->
     <select class="ql-size">
       <option value="small"></option>
@@ -9,27 +9,63 @@
       <option value="huge"></option>
     </select>
     <!-- Add a bold button -->
-    <button class="ql-bold"></button>
+      <button class="ql-bold"></button>
+      <button class="ql-italic"></button>
+      <button class="ql-underline"></button>
+
     <!-- Add subscript and superscript buttons -->
     <button class="ql-script" value="sub"></button>
     <button class="ql-script" value="super"></button>
     <select class="ql-color" title="Colour">
-      <option value="rgb(255,0,0)" />
-      <option value="rgb(0,255,0)" />
-      <option value="rgb(0,0,255)" />
-      <option value="rgb(0,0,0)" />
-      <option value="rgb(255,255,255)" />
-      <option value="rgb(255,255,0)" />
-      <option value="rgb(0,255,0)" />
-      <option value="rgb(255,0,255)" />
+      <option value="rgb(255,0,0)"/>
+      <option value="rgb(0,255,0)"/>
+      <option value="rgb(0,0,255)"/>
+      <option value="rgb(0,0,0)"/>
+      <option value="rgb(255,255,255)"/>
+      <option value="rgb(255,255,0)"/>
+      <option value="rgb(0,255,0)"/>
+      <option value="rgb(255,0,255)"/>
     </select>
+    <select class="ql-background" title="Colour">
+      <option value="rgb(255,0,0)"/>
+      <option value="rgb(0,255,0)"/>
+      <option value="rgb(0,0,255)"/>
+      <option value="rgb(0,0,0)"/>
+      <option value="rgb(255,255,255)"/>
+      <option value="rgb(255,255,0)"/>
+      <option value="rgb(0,255,0)"/>
+      <option value="rgb(255,0,255)"/>
+    </select>
+    <span class="ql-formats">
+    <button class="ql-align" value=""></button>
+    <button class="ql-align" value="center"></button>
+    <button class="ql-align" value="right"></button>
+    <button class="ql-align" value="justify"></button>
+  </span>
+    <span class="ql-formats">
+			<select class="ql-font">
+				<option value="sans-serif">Sans Serif</option>
+				<option value="serif">Serif</option>
+				<option value="monospace">Monospace</option>
+        <option value="inconsolata">Inconsolata</option>
+        <option value="tangerine">Tangerine</option>
+        <option value="mirza">Mirza</option>
+        <option value="arial">Arial</option>
+			</select>
+		</span>
+    <span class="ql-formats">
+			<button type="button" class="ql-list" value="bullet">
+			</button>
+			<button type="button" class="ql-list" value="ordered">
+			</button>
+		</span>
   </div>
 </template>
 
 <script>
 
 export default {
-  name:"ToolBar",
+  name: "ToolBar",
   props: {
     Text: Object
   },
@@ -39,7 +75,7 @@ export default {
       height: 0,
       x: 0,
       y: 0,
-      rotation:0
+      rotation: 0
     }
   },
   methods: {
@@ -55,7 +91,7 @@ export default {
     },
   },
   computed: {
-    style () {
+    style() {
       return 'display: ' + this.Text.visible + " !important";
     }
   },
@@ -63,7 +99,7 @@ export default {
 </script>
 
 <style>
-.ql-picker-item ql-primary{
-  border: 1px solid black !important;
-}
+@import "../assets/css/fonts.css";
+
+
 </style>

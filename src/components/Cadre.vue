@@ -1,61 +1,40 @@
 <template>
-  <div
-      style="font-size:10%;height: 540px; width: 960px; border: 1px solid #ff0000; position: relative;"
-      @click="SetFalseForAllTextEditor">
-    <!--<Element v-bind:grid="[20,20]" msg="truc 1"/>
-    <Element v-bind:grid="[80,80]" msg="truc 2"/>
-    <Element v-bind:grid="[1,1]" msg="truc 3"/>-->
-    <Element v-for="Element in Elements" :key="Element.id"
-             :Element="Element"/>
-
-    <text-editor v-on:dblclicked="onClicktextEditor" v-on:selectedTextEditor="selectedTextEditor"
-                 v-on:unselectedTextEditor="unselectedTextEditor" v-for="text in Texts" :key="text.id"
-                 :text="text"/>
-
+  <div>
+    <div
+        style="font-size:10%;height: 540px; width: 960px; border: 1px solid #ff0000; position: relative;"
+    >
+      <!--<Element v-bind:grid="[20,20]" msg="truc 1"/>
+      <Element v-bind:grid="[80,80]" msg="truc 2"/>
+      <Element v-bind:grid="[1,1]" msg="truc 3"/>-->
+      <Element v-for="Element in Elements" :key="Element.id"
+               :Element="Element"/>
+      <text-editor v-on:changeContent="changeContent" v-on:selectedTextEditor="selectedTextEditor"
+                   v-on:unselectedTextEditor="unselectedTextEditor" v-for="text in Texts" :key="text.id"
+                   :text="text"/>
+    </div>
+    <button @click="saveTexts">Save</button>
+    <button @click="loadTexts">Load</button>
   </div>
 </template>
 
 <script>
 
+import axios from "axios";
+
 const Texts = [
   {
     id: 0,
+    content: ""
   },
   {
     id: 1,
+    content: ""
   },
 ]
 
 const Elements = [
   {
-    id: 1,
-    grid: [20, 20],
-    x: 100,
-    y: 100,
-    h: 100,
-    w: 100,
-    clicked: false,
-    code: "<p>Truc 1</p>",
-  }, {
-    id: 2,
-    grid: [1, 1],
-    x: 400,
-    y: 400,
-    h: 100,
-    w: 100,
-    code: "<p>Truc 2</p>"
-
-  }, {
-    id: 3,
-    grid: [1, 1],
-    x: 600,
-    y: 100,
-    h: 100,
-    w: 100,
-    code: "<p>Truc 3</p>"
-
-  }, {
-    id: 4,
+    id: 0,
     grid: [1, 1],
     x: 200,
     y: 200,
@@ -65,7 +44,7 @@ const Elements = [
 
   },
   {
-    id: 5,
+    id: 1,
     grid: [1, 1],
     x: 400,
     y: 300,
@@ -92,21 +71,50 @@ export default {
     };
   },
   methods: {
-    SetFalseForAllTextEditor: function () {
-      //this.$set(this.Texts[0],'clicked', false)
-    },
-    onClicktextEditor: function (idText) { //idText = l'id correspondant à l'editor dans le tableau Text
-      console.log("select")
-      this.$set(this.Texts[idText], 'clicked', true)
-
-    },
     selectedTextEditor: function (idText) {
-      console.log("coucoucoucou")
       this.$emit("selectedTextEditor", idText)
     },
     unselectedTextEditor: function (idText) {
       this.$emit("unselectedTextEditor", idText)
-    }
+    },
+    changeContent(html, idText) {
+      //this.$set(this.Texts[idText], 'clicked', true)
+      console.log(html + idText);
+      this.$set(this.Texts[idText], 'content', html)
+    },
+    saveTexts: async function () {
+      let json = JSON.stringify(this.Texts);
+      console.log(json);
+      const jsonPost = {action: 'save', json: json};
+      axios.post('http://back.test/back.php', jsonPost)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    }, loadTexts: function () {
+      const jsonPost = {action: 'load'};
+      let fuck = this;
+      axios.post('http://back.test/back.php', jsonPost)
+          .then(function (response) {
+            let res = JSON.parse(response.data);
+            for(let i in res) {
+              fuck.$set(Texts[res[i].id], 'content', res[i].content)
+
+            }
+
+
+
+
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+
+    },
   }
 }
 </script>

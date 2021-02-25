@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="display: flex">
-    <Cadre v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="selectedTextEditor"></Cadre>
+    <Cadre v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor"></Cadre>
 
     <tool-bar v-for="text in Texts" :key="text.id"
               :text="text"/>

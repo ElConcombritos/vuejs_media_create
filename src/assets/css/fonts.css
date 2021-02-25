@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Tangerine');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+#toolbar .ql-font span[data-label="Tangerine"]::before {
+    font-family: 'Tangerine', serif;
+}
+
+.ql-font-tangerine {
+    font-family: 'Tangerine', serif;
+}
