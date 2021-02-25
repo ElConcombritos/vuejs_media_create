@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div >
+
+    <div style="display: flex">
     <div
         style="font-size:10%;height: 540px; width: 960px; border: 1px solid #ff0000; position: relative;"
     >
@@ -16,6 +18,9 @@
                    v-on:unselectedTextEditor="unselectedTextEditor" v-for="text in Texts" :key="text.id"
                    :text="text"/>
     </div>
+      <tool-bar v-for="text in Texts" :key="text.id"
+                :text="text"/>
+    </div>
     <button @click="saveElements">Save</button>
     <button @click="loadElement">Load</button>
     <button @click="clear">Clear</button>
@@ -25,6 +30,7 @@
 <script>
 
 import axios from "axios";
+import ToolBar from "@/components/ToolBar";
 
 
 const Texts = [
@@ -34,7 +40,8 @@ const Texts = [
     y: 100,
     w: 100,
     h: 100,
-    content: ""
+    content: "",
+    toolbarVisibility:"none",
   },
   {
     id: 1,
@@ -43,6 +50,7 @@ const Texts = [
     w: 100,
     h: 100,
     content: "",
+    toolbarVisibility:"none",
   },
 ]
 
@@ -74,7 +82,8 @@ export default {
   name: "Cadre",
   components: {
     TextEditor,
-    Element
+    Element,
+    ToolBar
   },
   data: function () {
     return {
@@ -84,10 +93,16 @@ export default {
   },
   methods: {
     selectedTextEditor: function (idText) {
-      this.$emit("selectedTextEditor", idText)
+      console.log("coucou")
+      for (let i = 0; i < this.Texts.length; i++) {
+        this.$set(this.Texts[i], 'toolbarVisibility', "none")
+
+      }
+      this.$set(this.Texts[idText], 'toolbarVisibility', "block")
+
     },
     unselectedTextEditor: function (idText) {
-      this.$emit("unselectedTextEditor", idText)
+      this.$set(this.Texts[idText], 'toolbarVisibility', "none")
     },
     changeContent(html, idText) {
       //this.$set(this.Texts[idText], 'clicked', true)

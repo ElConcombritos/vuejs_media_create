@@ -1,9 +1,8 @@
 <template>
-  <div id="app" style="display: flex">
+  <div id="app" >
     <Cadre v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor"></Cadre>
 
-    <tool-bar v-for="text in Texts" :key="text.id"
-              :text="text"/>
+
 
 
   </div>
@@ -11,7 +10,6 @@
 
 <script>
 import Cadre from "@/components/Cadre";
-import ToolBar from "@/components/ToolBar";
 
 const Texts = [
   {
@@ -28,7 +26,7 @@ export default {
   name: 'App',
   components: {
     Cadre,
-    ToolBar
+
   },
   data: function () {
     return {
@@ -37,7 +35,6 @@ export default {
   },
   methods: {
     selectedTextEditor: function (idText) {
-      console.log("JE CHANGE LE STYLE HIHI")
       for (let i = 0; i < Texts.length; i++) {
         this.$set(this.Texts[i], 'visible', "none")
 

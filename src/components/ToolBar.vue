@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     style() {
-      return 'display: ' + this.Text.visible + " !important";
+      return 'display: ' + this.Text.toolbarVisibility + " !important";
     }
   },
 }
