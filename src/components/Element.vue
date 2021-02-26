@@ -1,11 +1,13 @@
 <template>
   <vue-draggable-resizable :x="this.widthCadre/Element.x" :y="this.heightCadre/Element.y" :w="this.widthCadre/Element.w"
-                           :h="this.heightCadre/Element.h" @dragging="onDrag" @resizing="onResize" :parent="true" :drag-cancel="'.cancel'">
+                           :h="this.heightCadre/Element.h" @dragging="onDrag" @resizing="onResize" :parent="true"
+                           :drag-cancel="'.cancel'">
     <div style="height: 100%" v-if="Element.type === 'image'">
       <ImageElement :Element="Element"></ImageElement>
     </div>
     <div style="height: 100%" v-if="Element.type === 'text'">
-      <TextEditor v-on:changeContent="changeContent" v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor" :Text="Element"></TextEditor>
+      <TextEditor v-on:changeContent="changeContent" v-on:selectedTextEditor="selectedTextEditor"
+                  v-on:unselectedTextEditor="unselectedTextEditor" :Text="Element"></TextEditor>
     </div>
   </vue-draggable-resizable>
 </template>
@@ -45,10 +47,10 @@ export default {
       this.y = this.heightCadre / y
       this.$emit("onElementDrag", this.Element.id, this.x, this.y)
     },
-    selectedTextEditor: function(idText) {
-      this.$emit("selectedTextEditor",idText)
+    selectedTextEditor: function (idText) {
+      this.$emit("selectedTextEditor", idText)
     },
-    unselectedTextEditor: function(idText) {
+    unselectedTextEditor: function (idText) {
       console.log("coucou les pd hihihi")
       this.$emit("unselectedTextEditor", idText)
     },

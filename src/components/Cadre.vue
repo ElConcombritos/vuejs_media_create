@@ -1,7 +1,9 @@
 <template>
   <div>
-
     <div style="display: flex">
+      <CanvasDraw class="canvas" style="font-size:10%;border: 1px solid #ff0000; position: absolute;z-index: 4000" :style="style" v-bind:widthCadre="widthCadre"
+                  v-bind:heightCadre="heightCadre" v-bind:rect="rect" v-bind:circle="circle" v-bind:poly="poly">
+      </CanvasDraw>
       <div class="cadre"
           style="font-size:10%;border: 1px solid #ff0000; position: relative;"
           :style="style"
@@ -29,7 +31,9 @@
       <tool-bar v-for="text in Elements" :key="text.id"
                 :Element="text"/>
     </div>
-    <rectangle></rectangle>
+    <div>
+      <button>Rectangle</button>
+    </div>
     <button @click="saveElements">Save</button>
     <button @click="loadElement">Load</button>
     <button @click="clear">Clear</button>
@@ -131,15 +135,17 @@ const Elements = [
 
 //import TextEditor from "@/components/TextEditor";
 import Element from './Element.vue'
-import Rectangle from "@/components/Rectangle";
+import CanvasDraw from "@/components/CanvasDraw";
+//import Rectangle from "@/components/Rectangle";
 
 export default {
   name: "Cadre",
   components: {
-    Rectangle,
+    //Rectangle,
     //TextEditor,
     Element,
-    ToolBar
+    ToolBar,
+    CanvasDraw
   },
   props: {
     widthCadre: Number,
@@ -149,6 +155,9 @@ export default {
     return {
       Texts,
       Elements,
+      poly : false,
+      circle : false,
+      rect : false,
     };
   },
   methods: {
