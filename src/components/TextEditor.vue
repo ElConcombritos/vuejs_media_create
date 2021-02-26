@@ -1,6 +1,5 @@
 <template>
-  <vue-draggable-resizable :x="Text.x" :y="Text.y" :w="Text.w" :h="Text.h" v-on:click="selectElement()" :drag-cancel="'.cancel'" :resizable="true" :draggable="true" @dragging="onDrag" @resizing="onResize"
-                           :parent="true">
+
     <div v-click-outside="onClickOutside" style="height:100%" v-on:dblclick="selectElement()"
          v-bind:class="{ 'cancel': this.isClicked,'selected' : this.isClicked }">
       <quill-editor style="height: 100%"
@@ -15,12 +14,11 @@
       />
       <br>
     </div>
-  </vue-draggable-resizable>
 </template>
 
 <script>
 
-import { Quill } from 'vue-quill-editor'
+import {Quill} from 'vue-quill-editor'
 
 // Add fonts to whitelist
 let Font = Quill.import('formats/font');
@@ -50,10 +48,11 @@ import vClickOutside from 'v-click-outside'
 ];*/
 
 
-
 export default {
   props: {
     Text: Object,
+    widthCadre: Number,
+    heightCadre: Number,
   },
   data() {
     return {
@@ -61,7 +60,7 @@ export default {
       height: 0,
       x: 0,
       y: 0,
-      rotation:0,
+      rotation: 0,
       isClicked: false,
       toolbar: ".toolbar" + this.Text.id,//marche pas quand on l'utilise pour définir le container de la toolbar
       editorOption: {
@@ -102,17 +101,17 @@ export default {
     },
     //PARTIE POUR INFORMER LE CADRE DU CHANGEMENT DE POSITION/TAILLE D'UN ELEMENT
     onResize: function (x, y, width, height) {
-      this.x = x
-      this.y = y
-      this.width = width
-      this.height = height
-      this.$emit("onTextResize",this.Text.id, x,y,width,height)
+      this.x = this.widthCadre / x
+      this.y = this.heightCadre / y
+      this.width = this.widthCadre / width
+      this.height = this.heightCadre / height
+      this.$emit("onTextResize", this.Text.id, this.x, this.y, this.width, this.height)
 
     },
     onDrag: function (x, y) {
-      this.x = x
-      this.y = y
-      this.$emit("onTextDrag",this.Text.id, x,y)
+      this.x = this.widthCadre / x
+      this.y = this.heightCadre / y
+      this.$emit("onTextDrag", this.Text.id, this.x, this.y)
 
     },
     //PARTIE POUR INFORMER LE CADRE DU CHANGEMENT DE POSITION/TAILLE D'UN ELEMENT
@@ -126,9 +125,9 @@ export default {
     onEditorReady(quill) {
       console.log('editor ready!', quill)
     },
-    onEditorChange({ quill, html, text }) {
+    onEditorChange({quill, html, text}) {
       console.log('editor change!', quill, html, text)
-      this.$emit("changeContent",html,this.Text.id)
+      this.$emit("changeContent", html, this.Text.id)
       //this.content = html
     }
   },
@@ -154,12 +153,13 @@ export default {
 }
 
 .selected {
-  border : 1px solid blue;
+  border: 1px solid blue;
 }
 
 .ql-picker-item ql-primary {
   border: 1px solid black !important;
 }
+
 .ql-formats {
   display: block !important;
 }

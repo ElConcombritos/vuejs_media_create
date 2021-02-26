@@ -1,9 +1,8 @@
 <template>
   <div id="app" >
-    <Cadre v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor"></Cadre>
-
-
-
+    <Cadre :widthCadre="960" :heightCadre="540" v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor"></Cadre>
+    <!--<Cadre :widthCadre="480" :heightCadre="270" v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor"></Cadre>
+    <Cadre :widthCadre="1920" :heightCadre="1080" v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor"></Cadre>-->
 
   </div>
 </template>

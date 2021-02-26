@@ -1,15 +1,26 @@
 <template>
-    <vue-draggable-resizable :w="Element.w" :h="Element.h" :x="Element.x" :y="Element.y" :grid="Element.grid" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <div style="height: 100%;width:100%" v-html="Element.code"> </div>
-    </vue-draggable-resizable>
+  <vue-draggable-resizable :x="this.widthCadre/Element.x" :y="this.heightCadre/Element.y" :w="this.widthCadre/Element.w"
+                           :h="this.heightCadre/Element.h" @dragging="onDrag" @resizing="onResize" :parent="true" :drag-cancel="'.cancel'">
+    <div style="height: 100%" v-if="Element.type === 'image'">
+      <ImageElement :Element="Element"></ImageElement>
+    </div>
+    <div style="height: 100%" v-if="Element.type === 'text'">
+      <TextEditor v-on:changeContent="changeContent" v-on:selectedTextEditor="selectedTextEditor" v-on:unselectedTextEditor="unselectedTextEditor" :Text="Element"></TextEditor>
+    </div>
+  </vue-draggable-resizable>
 </template>
-
 <script>
 
+import ImageElement from "@/components/ImageElement";
+import TextEditor from "@/components/TextEditor";
+
 export default {
-  name:"Element",
+  name: "Element",
+  components: {TextEditor, ImageElement},
   props: {
-    Element: Object
+    Element: Object,
+    widthCadre: Number,
+    heightCadre: Number,
   },
   data: function () {
     return {
@@ -17,27 +28,35 @@ export default {
       height: 0,
       x: 0,
       y: 0,
-      rotation:0
+      rotation: 0
     }
   },
   methods: {
     //PARTIE POUR INFORMER LE CADRE DU CHANGEMENT DE POSITION/TAILLE D'UN ELEMENT
     onResize: function (x, y, width, height) {
-      this.x = x
-      this.y = y
-      this.width = width
-      this.height = height
-      this.$emit("onElementResize",this.Element.id, x,y,width,height)
-
+      this.x = this.widthCadre / x
+      this.y = this.heightCadre / y
+      this.width = this.widthCadre / width
+      this.height = this.heightCadre / height
+      this.$emit("onElementResize", this.Element.id, this.x, this.y, this.width, this.height)
     },
     onDrag: function (x, y) {
-      console.log("drag ses morts")
-      this.x = x
-      this.y = y
-      this.$emit("onElementDrag",this.Element.id, x,y)
+      this.x = this.widthCadre / x
+      this.y = this.heightCadre / y
+      this.$emit("onElementDrag", this.Element.id, this.x, this.y)
     },
+    selectedTextEditor: function(idText) {
+      this.$emit("selectedTextEditor",idText)
+    },
+    unselectedTextEditor: function(idText) {
+      console.log("coucou les pd hihihi")
+      this.$emit("unselectedTextEditor", idText)
+    },
+    changeContent(html, idText) {
+      this.$emit("changeContent", html, idText)
+      //this.content = html
+    }
     //PARTIE POUR INFORMER LE CADRE DU CHANGEMENT DE POSITION/TAILLE D'UN ELEMENT
-
   }
 }
 </script>

@@ -1,26 +1,35 @@
 <template>
-  <div >
+  <div>
 
     <div style="display: flex">
-    <div
-        style="font-size:10%;height: 540px; width: 960px; border: 1px solid #ff0000; position: relative;"
-    >
-      <!--<Element v-bind:grid="[20,20]" msg="truc 1"/>
-      <Element v-bind:grid="[80,80]" msg="truc 2"/>
-      <Element v-bind:grid="[1,1]" msg="truc 3"/>-->
-      <Element v-for="Element in Elements" :key="Element.id" v-on:onElementDrag="onElementDrag"
-               v-on:onElementResize="onElementResize"
-               :Element="Element"/>
+      <div class="cadre"
+          style="font-size:10%;border: 1px solid #ff0000; position: relative;"
+          :style="style"
+      >
+        <!--<Element v-bind:grid="[20,20]" msg="truc 1"/>
+        <Element v-bind:grid="[80,80]" msg="truc 2"/>
+        <Element v-bind:grid="[1,1]" msg="truc 3"/>-->
+        <Element v-for="Element in Elements" :key="Element.id" v-on:onElementDrag="onElementDrag" v-on:changeContent="changeContent"
+                 v-on:onElementResize="onElementResize"
+                 :Element="Element"
+                 v-bind:widthCadre="widthCadre"
+                 v-bind:heightCadre="heightCadre"
+                 v-on:selectedTextEditor="selectedTextEditor"
+                 v-on:unselectedTextEditor="unselectedTextEditor"
+        />
 
 
-      <text-editor v-on:onTextDrag="onTextDrag" v-on:onTextResize="onTextResize" v-on:changeContent="changeContent"
-                   v-on:selectedTextEditor="selectedTextEditor"
-                   v-on:unselectedTextEditor="unselectedTextEditor" v-for="text in Texts" :key="text.id"
-                   :text="text"/>
+        <!--<text-editor v-on:onTextDrag="onTextDrag" v-on:onTextResize="onTextResize" v-on:changeContent="changeContent"
+                     v-on:selectedTextEditor="selectedTextEditor"
+                     v-on:unselectedTextEditor="unselectedTextEditor" v-for="text in Texts" :key="text.id"
+                     :text="text"
+                     v-bind:widthCadre="widthCadre"
+                     v-bind:heightCadre="heightCadre"/>-->
+      </div>
+      <tool-bar v-for="text in Elements" :key="text.id"
+                :Element="text"/>
     </div>
-      <tool-bar v-for="text in Texts" :key="text.id"
-                :text="text"/>
-    </div>
+    <rectangle></rectangle>
     <button @click="saveElements">Save</button>
     <button @click="loadElement">Load</button>
     <button @click="clear">Clear</button>
@@ -41,6 +50,29 @@ const Texts = [
     w: 100,
     h: 100,
     content: "",
+    toolbarVisibility: "none",
+  },
+  {
+    id: 1,
+    x: 100,
+    y: 100,
+    w: 100,
+    h: 100,
+    content: "",
+    toolbarVisibility: "none",
+  },
+]
+
+//Exemple structure
+/*const EXAMPLE = [
+  {
+    id: 0,
+    x: 100,
+    y: 100,
+    w: 100,
+    h: 100,
+    content: "",
+    type: "image",
     toolbarVisibility:"none",
   },
   {
@@ -50,40 +82,68 @@ const Texts = [
     w: 100,
     h: 100,
     content: "",
-    toolbarVisibility:"none",
+    type: "text",
   },
-]
+]*/
 
 const Elements = [
   {
     id: 0,
     grid: [1, 1],
-    x: 200,
-    y: 200,
-    h: 100,
-    w: 100,
+    x: 3.910386965376782,
+    y: 1.241914618369987,
+    w: 2.0869565217391304,
+    h: 13.846153846153847,
+    type: "image",
     code: '<img style="width:100%;height:100%" src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg">'
   },
   {
     id: 1,
     grid: [1, 1],
-    x: 400,
-    y: 300,
-    h: 100,
-    w: 100,
+    x: 3.910386965376782,
+    y: 1.241914618369987,
+    w: 2.0869565217391304,
+    h: 13.846153846153847,
+    type: "image",
     code: '<img style="width:100%;height:100%" src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg">'
+  },
+  {
+    id: 2,
+    x: 3.910386965376782,
+    y: 1.241914618369987,
+    w: 2.0869565217391304,
+    h: 13.846153846153847,
+    content: "",
+    type: "text",
+    toolbarVisibility: "none",
+  },
+  {
+    id: 3,
+    x: 3.910386965376782,
+    y: 1.241914618369987,
+    w: 2.0869565217391304,
+    h: 13.846153846153847,
+    content: "",
+    type: "text",
+    toolbarVisibility: "none",
   },
 ]
 
-import TextEditor from "@/components/TextEditor";
+//import TextEditor from "@/components/TextEditor";
 import Element from './Element.vue'
+import Rectangle from "@/components/Rectangle";
 
 export default {
   name: "Cadre",
   components: {
-    TextEditor,
+    Rectangle,
+    //TextEditor,
     Element,
     ToolBar
+  },
+  props: {
+    widthCadre: Number,
+    heightCadre: Number,
   },
   data: function () {
     return {
@@ -95,26 +155,27 @@ export default {
     selectedTextEditor: function (idText) {
       console.log("coucou")
       for (let i = 0; i < this.Texts.length; i++) {
-        this.$set(this.Texts[i], 'toolbarVisibility', "none")
+        this.$set(this.Elements[i], 'toolbarVisibility', "none")
 
       }
-      this.$set(this.Texts[idText], 'toolbarVisibility', "block")
+      this.$set(this.Elements[idText], 'toolbarVisibility', "block")
 
     },
     unselectedTextEditor: function (idText) {
-      this.$set(this.Texts[idText], 'toolbarVisibility', "none")
+      console.log("WSH WSH LES PD")
+      this.$set(this.Elements[idText], 'toolbarVisibility', "none")
     },
     changeContent(html, idText) {
       //this.$set(this.Texts[idText], 'clicked', true)
       console.log(html + idText);
-      this.$set(this.Texts[idText], 'content', html)
+      this.$set(this.Elements[idText], 'content', html)
     },
-    onTextDrag: function (idText, x, y) {
+    onTextDrag: function (idText, x, y) {//SERT PU A RIEN
       console.log("drag")
       this.$set(this.Texts[idText], 'x', x)
       this.$set(this.Texts[idText], 'y', y)
     },
-    onTextResize: function (idText, x, y, width, height) {
+    onTextResize: function (idText, x, y, width, height) {//SERT PU A RIEN
       this.$set(this.Texts[idText], 'x', x)
       this.$set(this.Texts[idText], 'y', y)
       this.$set(this.Texts[idText], 'w', width)
@@ -144,9 +205,9 @@ export default {
       this.emptyArrays();
     },
     saveElements: async function () {
-      let textJson = JSON.stringify(this.Texts);
+      //let textJson = JSON.stringify(this.Texts);
       let ElementJson = JSON.stringify(this.Elements);
-      const jsonPost = {action: 'saveElements', jsonT: textJson, 'jsonE': ElementJson};
+      const jsonPost = {action: 'saveElements', 'jsonE': ElementJson};
       axios.post('http://back.test/back.php', jsonPost)
           .then(function (response) {
             console.log(response);
@@ -154,7 +215,6 @@ export default {
           .catch(function (error) {
             console.log(error);
           });
-
     },
     loadElement: function () {
       const jsonPost = {action: 'loadElements'};
@@ -173,7 +233,6 @@ export default {
               fuck.Texts.push(res[i]);
               //fuck.$set(Texts[res[i].id], 'content', res[i].content)
             }
-
           })
           .catch(function (error) {
             console.log(error);
@@ -191,7 +250,6 @@ export default {
           .catch(function (error) {
             console.log(error);
           });
-
     },
     loadTexts: function () {
       const jsonPost = {action: 'load'};
@@ -208,7 +266,12 @@ export default {
             console.log(error);
           });
     },
-  }
+  },
+  computed: {
+    style() {
+      return 'width: ' + this.widthCadre + "px;" + 'height: ' + this.heightCadre + "px;" + 'font-size: ' + this.widthCadre / 96 + "px;";
+    }
+  },
 }
 </script>
 

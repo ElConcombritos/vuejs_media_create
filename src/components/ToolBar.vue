@@ -1,48 +1,50 @@
 <template>
-  <div id="toolbar" :class="'toolbar'+Text.id" style="width: 8%" :style="style">
-    <!-- Add font size dropdown -->
-    <select class="ql-size">
-      <option value="small"></option>
-      <!-- Note a missing, thus falsy value, is used to reset to default -->
-      <option selected></option>
-      <option value="large"></option>
-      <option value="huge"></option>
-    </select>
-    <!-- Add a bold button -->
+  <div v-if="Element.type === 'text'">
+
+    <div id="toolbar" :class="'toolbar'+Element.id" style="width: 45%" :style="style">
+      <!-- Add font size dropdown -->
+      <select class="ql-size">
+        <option value="small"></option>
+        <!-- Note a missing, thus falsy value, is used to reset to default -->
+        <option selected></option>
+        <option value="large"></option>
+        <option value="huge"></option>
+      </select>
+      <!-- Add a bold button -->
       <button class="ql-bold"></button>
       <button class="ql-italic"></button>
       <button class="ql-underline"></button>
 
-    <!-- Add subscript and superscript buttons -->
-    <button class="ql-script" value="sub"></button>
-    <button class="ql-script" value="super"></button>
-    <select class="ql-color" title="Colour">
-      <option value="rgb(255,0,0)"/>
-      <option value="rgb(0,255,0)"/>
-      <option value="rgb(0,0,255)"/>
-      <option value="rgb(0,0,0)"/>
-      <option value="rgb(255,255,255)"/>
-      <option value="rgb(255,255,0)"/>
-      <option value="rgb(0,255,0)"/>
-      <option value="rgb(255,0,255)"/>
-    </select>
-    <select class="ql-background" title="Colour">
-      <option value="rgb(255,0,0)"/>
-      <option value="rgb(0,255,0)"/>
-      <option value="rgb(0,0,255)"/>
-      <option value="rgb(0,0,0)"/>
-      <option value="rgb(255,255,255)"/>
-      <option value="rgb(255,255,0)"/>
-      <option value="rgb(0,255,0)"/>
-      <option value="rgb(255,0,255)"/>
-    </select>
-    <span class="ql-formats">
+      <!-- Add subscript and superscript buttons -->
+      <button class="ql-script" value="sub"></button>
+      <button class="ql-script" value="super"></button>
+      <select class="ql-color" title="Colour">
+        <option value="rgb(255,0,0)"/>
+        <option value="rgb(0,255,0)"/>
+        <option value="rgb(0,0,255)"/>
+        <option value="rgb(0,0,0)"/>
+        <option value="rgb(255,255,255)"/>
+        <option value="rgb(255,255,0)"/>
+        <option value="rgb(0,255,0)"/>
+        <option value="rgb(255,0,255)"/>
+      </select>
+      <select class="ql-background" title="Colour">
+        <option value="rgb(255,0,0)"/>
+        <option value="rgb(0,255,0)"/>
+        <option value="rgb(0,0,255)"/>
+        <option value="rgb(0,0,0)"/>
+        <option value="rgb(255,255,255)"/>
+        <option value="rgb(255,255,0)"/>
+        <option value="rgb(0,255,0)"/>
+        <option value="rgb(255,0,255)"/>
+      </select>
+      <span class="ql-formats">
     <button class="ql-align" value=""></button>
     <button class="ql-align" value="center"></button>
     <button class="ql-align" value="right"></button>
     <button class="ql-align" value="justify"></button>
   </span>
-    <span class="ql-formats">
+      <span class="ql-formats">
 			<select class="ql-font">
 				<option value="sans-serif">Sans Serif</option>
 				<option value="serif">Serif</option>
@@ -53,12 +55,13 @@
         <option value="arial">Arial</option>
 			</select>
 		</span>
-    <span class="ql-formats">
+      <span class="ql-formats">
 			<button type="button" class="ql-list" value="bullet">
 			</button>
 			<button type="button" class="ql-list" value="ordered">
 			</button>
 		</span>
+    </div>
   </div>
 </template>
 
@@ -67,7 +70,7 @@
 export default {
   name: "ToolBar",
   props: {
-    Text: Object
+    Element: Object
   },
   data: function () {
     return {
@@ -92,7 +95,7 @@ export default {
   },
   computed: {
     style() {
-      return 'display: ' + this.Text.toolbarVisibility + " !important";
+      return 'display: ' + this.Element.toolbarVisibility + " !important";
     }
   },
 }
