@@ -5,6 +5,21 @@
     <div style="height: 100%" v-if="Element.type === 'image'">
       <ImageElement :Element="Element"></ImageElement>
     </div>
+    <div style="height: 100%" v-if="Element.type === 'circle'">
+      <circle-form :Circle="Element"></circle-form>
+    </div>
+    <div style="height: 100%" v-if="Element.type === 'rect'">
+      <rect-form :Rect="Element"></rect-form>
+    </div>
+    <div style="height: 100%" v-if="Element.type === 'poly'">
+      <poly-form  v-bind:heightCadre="heightCadre"  v-bind:widthCadre="widthCadre" :Poly="Element"></poly-form>
+    </div>
+    <div style="height: 100%" v-if="Element.type === 'star'">
+      <star-form :Rect="Element"></star-form>
+    </div>    <div style="height: 100%" v-if="Element.type === 'banana'">
+      <banana-form :Rect="Element"></banana-form>
+    </div>
+
     <div style="height: 100%" v-if="Element.type === 'text'">
       <TextEditor v-on:changeContent="changeContent" v-on:selectedTextEditor="selectedTextEditor"
                   v-on:unselectedTextEditor="unselectedTextEditor" :Text="Element"></TextEditor>
@@ -15,10 +30,15 @@
 
 import ImageElement from "@/components/ImageElement";
 import TextEditor from "@/components/TextEditor";
+import CircleForm from "@/components/form/CircleForm";
+import RectForm from "@/components/form/RectForm";
+import PolyForm from "@/components/form/PolyForm";
+import StarForm from "@/components/form/StarForm";
+import BananaForm from "@/components/form/BananaForm";
 
 export default {
   name: "Element",
-  components: {TextEditor, ImageElement},
+  components: {BananaForm, StarForm, PolyForm, RectForm, CircleForm, TextEditor, ImageElement},
   props: {
     Element: Object,
     widthCadre: Number,
@@ -51,7 +71,6 @@ export default {
       this.$emit("selectedTextEditor", idText)
     },
     unselectedTextEditor: function (idText) {
-      console.log("coucou les pd hihihi")
       this.$emit("unselectedTextEditor", idText)
     },
     changeContent(html, idText) {

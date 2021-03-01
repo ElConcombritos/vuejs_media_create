@@ -23,8 +23,12 @@ import {Quill} from 'vue-quill-editor'
 // Add fonts to whitelist
 let Font = Quill.import('formats/font');
 // We do not add Sans Serif since it is the default
-Font.whitelist = ['inconsolata', 'tangerine', 'mirza', 'arial'];
+Font.whitelist = ['roboto', 'tangerine', 'anton'];
 Quill.register(Font, true);
+
+var Size = Quill.import('attributors/style/size');
+Size.whitelist = ['14px', '16px', '18px','30px'];
+Quill.register(Size, true);
 
 import vClickOutside from 'v-click-outside'
 
@@ -74,17 +78,13 @@ export default {
   },
   methods: {
     selectElement: function () {
-      console.log('selected')
-      console.log(this.toolbar)
       this.$emit("selectedTextEditor", this.Text.id)
       this.isClicked = true;
     },
     unselectElement: function () {
-      console.log('unselected')
       //this.isClicked = false;
     },
     onClickOutside(event) {
-      console.log('Clicked outside. Event: ', event)
       let isClickInToolbar = false;
       for (let i in event.path) {
         if (event.path[i].id != undefined) {

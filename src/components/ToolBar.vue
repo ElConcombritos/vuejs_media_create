@@ -47,14 +47,20 @@
       <span class="ql-formats">
 			<select class="ql-font">
 				<option value="sans-serif">Sans Serif</option>
-				<option value="serif">Serif</option>
-				<option value="monospace">Monospace</option>
-        <option value="inconsolata">Inconsolata</option>
         <option value="tangerine">Tangerine</option>
-        <option value="mirza">Mirza</option>
-        <option value="arial">Arial</option>
+        <option value="anton">Anton</option>
+        <option value="roboto">Roboto</option>
+
 			</select>
 		</span>
+      <span class="ql-format-group">
+          <select title="Size" class="ql-size">
+            <option value="14px">Small</option>
+            <option value="16px">Normal</option>
+            <option value="18px">Large</option>
+            <option value="30px">Huge</option>
+          </select>
+        </span>
       <span class="ql-formats">
 			<button type="button" class="ql-list" value="bullet">
 			</button>

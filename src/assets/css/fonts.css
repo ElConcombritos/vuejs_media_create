@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Tangerine');
+@import url('https://fonts.googleapis.com/css?family=Anton');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 #toolbar .ql-font span[data-label="Tangerine"]::before {
@@ -7,4 +8,40 @@
 
 .ql-font-tangerine {
     font-family: 'Tangerine', serif;
+}
+
+#toolbar .ql-font span[data-label="Anton"]::before {
+    font-family: 'Anton', serif;
+}
+
+.ql-font-anton {
+    font-family: 'Anton', serif;
+}
+
+#toolbar .ql-font span[data-label="Roboto"]::before {
+    font-family: 'Roboto', serif;
+}
+
+.ql-font-roboto {
+    font-family: 'Roboto', serif;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before {
+    content: 'Small';
+    font-size: 14px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before {
+    content: 'Normal';
+    font-size: 16px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
+    content: 'Large';
+    font-size: 18px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="30px"]::before {
+    content: 'Huge';
+    font-size: 30px !important;
 }

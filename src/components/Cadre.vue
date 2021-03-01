@@ -1,17 +1,29 @@
 <template>
   <div>
+    <div style="float:left">
+      <button @click="select">Select</button>
+      <button @click="rectTrue">Rect</button>
+      <button @click="circleTrue">Circle</button>
+      <button @click="polyTrue">Poly</button>
+    </div>
     <div style="display: flex">
-      <CanvasDraw class="canvas" style="font-size:10%;border: 1px solid #ff0000; position: absolute;z-index: 4000" :style="style" v-bind:widthCadre="widthCadre"
+
+      <CanvasDraw class="canvas" style="font-size:10%;border: 1px solid #ff0000; position: absolute"
+                  :style="styleCanvas" v-bind:widthCadre="widthCadre" v-on:newCircle="onNewCircle"
+                  v-bind:isDrawing="this.drawing"
+                  v-on:newRect="onNewRect"
+                  v-on:newPoly="onNewPoly"
                   v-bind:heightCadre="heightCadre" v-bind:rect="rect" v-bind:circle="circle" v-bind:poly="poly">
       </CanvasDraw>
       <div class="cadre"
-          style="font-size:10%;border: 1px solid #ff0000; position: relative;"
-          :style="style"
+           style="font-size:10%;border: 1px solid #ff0000; position: relative;"
+           :style="style"
       >
         <!--<Element v-bind:grid="[20,20]" msg="truc 1"/>
         <Element v-bind:grid="[80,80]" msg="truc 2"/>
         <Element v-bind:grid="[1,1]" msg="truc 3"/>-->
-        <Element v-for="Element in Elements" :key="Element.id" v-on:onElementDrag="onElementDrag" v-on:changeContent="changeContent"
+        <Element v-for="Element in Elements" :key="Element.id" v-on:onElementDrag="onElementDrag"
+                 v-on:changeContent="changeContent"
                  v-on:onElementResize="onElementResize"
                  :Element="Element"
                  v-bind:widthCadre="widthCadre"
@@ -67,29 +79,6 @@ const Texts = [
   },
 ]
 
-//Exemple structure
-/*const EXAMPLE = [
-  {
-    id: 0,
-    x: 100,
-    y: 100,
-    w: 100,
-    h: 100,
-    content: "",
-    type: "image",
-    toolbarVisibility:"none",
-  },
-  {
-    id: 1,
-    x: 100,
-    y: 100,
-    w: 100,
-    h: 100,
-    content: "",
-    type: "text",
-  },
-]*/
-
 const Elements = [
   {
     id: 0,
@@ -131,12 +120,33 @@ const Elements = [
     type: "text",
     toolbarVisibility: "none",
   },
+  {
+    id: 4,
+    x: 3.910386965376782,
+    y: 1.241914618369987,
+    w: 2.0869565217391304,
+    h: 13.846153846153847,
+    content: "",
+    type: "star",
+    toolbarVisibility: "none",
+  },
+
+  {
+    id: 5,
+    x: 3.910386965376782,
+    y: 1.241914618369987,
+    w: 2.0869565217391304,
+    h: 13.846153846153847,
+    content: "",
+    type: "banana",
+    toolbarVisibility: "none",
+  },
+
+
 ]
 
-//import TextEditor from "@/components/TextEditor";
 import Element from './Element.vue'
 import CanvasDraw from "@/components/CanvasDraw";
-//import Rectangle from "@/components/Rectangle";
 
 export default {
   name: "Cadre",
@@ -155,14 +165,43 @@ export default {
     return {
       Texts,
       Elements,
-      poly : false,
-      circle : false,
-      rect : false,
+      poly: false,
+      circle: false,
+      rect: false,
+      zindex: -1,
+      drawing: false,
     };
   },
   methods: {
+    select: function () {
+      this.poly = false;
+      this.rect = false
+      this.circle = false;
+      this.zindex = -1
+    },
+    rectTrue: function () {
+      this.poly = false;
+      this.rect = true
+      this.circle = false;
+      this.drawing = true;
+      this.zindex = 4000
+    },
+    circleTrue: function () {
+      this.poly = false;
+      this.rect = false
+      this.circle = true;
+      this.drawing = true;
+      this.zindex = 4000
+    },
+
+    polyTrue: function () {
+      this.poly = true;
+      this.rect = false
+      this.circle = false;
+      this.drawing = true;
+      this.zindex = 4000
+    },
     selectedTextEditor: function (idText) {
-      console.log("coucou")
       for (let i = 0; i < this.Texts.length; i++) {
         this.$set(this.Elements[i], 'toolbarVisibility', "none")
 
@@ -171,7 +210,6 @@ export default {
 
     },
     unselectedTextEditor: function (idText) {
-      console.log("WSH WSH LES PD")
       this.$set(this.Elements[idText], 'toolbarVisibility', "none")
     },
     changeContent(html, idText) {
@@ -200,6 +238,73 @@ export default {
       this.$set(this.Elements[idElement], 'y', y)
       this.$set(this.Elements[idElement], 'w', width)
       this.$set(this.Elements[idElement], 'h', height)
+    },
+    onNewCircle: function (cx, cy, rw, rh) {
+      let id = Elements.length;
+      let circle = {
+        id: id,
+        x: cx,
+        y: cy,
+        w: rw,
+        h: rh,
+        content: "",
+        type: "circle",
+        toolbarVisibility: "none",
+      }
+      this.Elements.push(circle)
+      this.zindex = -1
+      this.drawing = false
+    },
+    onNewRect: function (x, y, w, h) {
+      let id = Elements.length;
+      let circle = {
+        id: id,
+        x: x,
+        y: y,
+        w: w,
+        h: h,
+        content: "",
+        type: "rect",
+        toolbarVisibility: "none",
+      }
+      this.Elements.push(circle)
+      this.zindex = -1
+      this.drawing = false
+    },
+    onNewPoly: function (svgPointsArray, x, y, w, h) {
+      /** CONVERSION DU POLYGON EN PATH */
+      let points = "";
+      let maxX = 0
+      let maxY = 0
+      for (let i of svgPointsArray) {
+        if (i.x > maxX) maxX = i.x
+        if (i.y > maxY) maxY = i.y
+        points += (i.x) + "," + (i.y) + " "
+      }
+      points = points.slice(0, -1)
+      var p = points.split(/\s+/);
+      var path = "";
+      for (var i = 0, len = p.length; i < len; i++) {
+        path += (i && "L" || "M") + p[i]
+      }
+      /** ################################# */
+      let id = Elements.length;
+      let poly = {
+        id: id,
+        x: x,
+        y: y,
+        w: w,
+        h: h,
+        viewPort : {x:maxX,y:maxY},
+        content: "",
+        type: "poly",
+        path: path,
+        toolbarVisibility: "none",
+      }
+      this.Elements.push(poly)
+      this.zindex = -1
+      this.drawing = false
+
     },
     emptyArrays: function () {
       console.log("clear")
@@ -278,7 +383,10 @@ export default {
   },
   computed: {
     style() {
-      return 'width: ' + this.widthCadre + "px;" + 'height: ' + this.heightCadre + "px;" + 'font-size: ' + this.widthCadre / 96 + "px;";
+      return 'width: ' + this.widthCadre + "px;" + 'height: ' + this.heightCadre + "px;" + 'font-size: ' + this.widthCadre / 96 + "px;"
+    },
+    styleCanvas() {
+      return 'width: ' + this.widthCadre + "px;" + 'height: ' + this.heightCadre + "px;" + 'font-size: ' + this.widthCadre / 96 + "px;" + 'z-index: ' + this.zindex
     }
   },
 }
