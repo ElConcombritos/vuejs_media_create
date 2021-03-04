@@ -13,7 +13,6 @@
         <b-col cols="2">
         </b-col>
         <b-col cols="3">
-
         </b-col>
       </b-row>
     </b-container>
@@ -66,13 +65,11 @@
         </b-col>
       </b-row>
     </b-container>
-
     <b-button @click="saveElements">Save</b-button>
     <b-button @click="loadElement">Load</b-button>
     <b-button @click="clear">Clear</b-button>
   </div>
 </template>
-
 <script>
 
 import axios from "axios";
@@ -213,58 +210,6 @@ export default {
       undoableProps: ['x', 'y', 'w', 'h', 'color', 'zindex', 'content']
     };
   },
-  watch: {
-    /*Elements: {
-      handler() {//FOUTRE UN BOOLEAN ET LE METTRE A FALSE QUAND ON FAIT UN UNDO
-        if (!this.isUndoing) {
-          console.log("save old element")
-          this.savedElements.push(JSON.parse(JSON.stringify(this.oldElements)))
-          this.oldElements = JSON.parse(JSON.stringify(this.Elements));
-        }
-        else {
-          this.isUndoing = false
-        }
-      },
-      deep: true
-    },*/
-    /*"Elements": {
-      deep: true,
-      handler: function (after, before) {
-        console.log("watcher")
-        console.log(after)
-        console.log(before)
-        if (!this.isUndoing) {
-          var this = this;
-          let isChanged = false;
-          if (vm.Elements.length != vm.oldElements.length) {
-            isChanged = true
-          }
-          if (!isChanged) {
-            for (let index = 0; index < after.length; index++) {
-              const item = after[index]
-
-              const props = Object.keys(item)
-              props.some(function (prop) {//RECUPERE LES PROPS DE L'OBJET QUI ONT CHANGÉ
-                if (vm.undoableProps.includes(prop)) {
-                  const newValue = item[prop]
-                  const oldValue = vm.oldElements[index][prop]
-                  if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-                    console.log(prop)
-                    isChanged = true
-                  }
-                }
-              })
-            }
-            if (isChanged) {
-              vm.savedElements.push(JSON.parse(JSON.stringify(vm.oldElements)))
-              vm.oldElements = JSON.parse(JSON.stringify(vm.Elements))
-            }
-          }
-        }
-        this.isUndoing = false
-      }
-    }*/
-  },
   methods: {
     undo: function () {
       if (this.savedElements.length > 0) {
@@ -322,7 +267,6 @@ export default {
       }
       this.Elements.push(star)
       this.saveUndo()
-
     },
     createTriangle: function () {
       let id = this.Elements.length;
@@ -348,7 +292,7 @@ export default {
     saveUndo : function() {
       this.savedElements.push(JSON.parse(JSON.stringify(this.oldElements)))
       this.oldElements = JSON.parse(JSON.stringify(this.Elements))
-      this.savedRedoElements.empty()
+      this.savedRedoElements = []
     },
     newValue: function (key, value, idElement) {
       let isChanged = false

@@ -77,6 +77,9 @@ export default {
       this.$emit("onElementResize", this.Element.id, this.x, this.y, this.width, this.height)
     },
     onDrag: function (x, y) {
+      console.log(x,y)
+      if (x === 0) x = 0.1
+      if (y === 0) y = 0.1
       this.x = this.widthCadre / x
       this.y = this.heightCadre / y
       this.$emit("onElementDrag", this.Element.id, this.x, this.y)
