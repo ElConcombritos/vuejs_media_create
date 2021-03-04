@@ -1,24 +1,22 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" v-click-outside="onClickOutside" v-on:dblclick="selectElement" v-bind:fill="this.Element.color"
-  height="100%">
-    <rect x="0" y="0" width="100" height="100"/>
-  </svg>
+  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+       y="0px" width="100%" height="100%"
+       viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;" xml:space="preserve"
+       v-click-outside="onClickOutside" v-on:dblclick="selectElement" v-bind:fill="this.Element.color">
+      <g>
+        <g>
+          <path d="M490,474.459H0L245.009,15.541L490,474.459z"/>
+        </g>
+      </g>
+
+</svg>
 </template>
 
 <script>
 import vClickOutside from "v-click-outside";
 
 export default {
-  name: "RectForm",
-  data() {
-    return {
-      width: 0,
-      height: 0,
-      x: 0,
-      y: 0,
-    }
-  },
-
+  name: "TriangleForm",
   props: {
     Element: Object
   },
@@ -49,11 +47,6 @@ export default {
   }, directives: {
     clickOutside: vClickOutside.directive
   },
-  computed: {
-    style() {
-      return "fill : " + this.Rect.color
-    }
-  }
 }
 </script>
 

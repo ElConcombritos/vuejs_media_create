@@ -14,8 +14,8 @@ export default {
     isDrawing: Boolean
   },
   watch: {
-    isDrawing: function (newVal, oldVal) { // watch it
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    isDrawing: function (newVal) { // watch it
+
       if (newVal) {
         //initialise le canva pour dessiner
         this.draw()
