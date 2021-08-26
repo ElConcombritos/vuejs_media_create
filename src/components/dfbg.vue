@@ -1,3 +1,4 @@
+<!-- SERT A RIEN JE CROIS -->
 <template>
   <nav id="toolbar" class="nav-toolbar">
     <!-- 	<div class="ql-toolbar ql-snow"> -->

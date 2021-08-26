@@ -2,7 +2,7 @@
   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
        y="0px" width="100%" height="100%"
        viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;" xml:space="preserve"
-       v-click-outside="onClickOutside" v-on:dblclick="selectElement" v-bind:fill="this.Element.color">
+       v-click-outside="onClickOutside" v-on:click="selectElement" v-bind:fill="this.Element.color">
       <g>
         <g>
           <path d="M511.267,197.258c-1.764-5.431-6.457-9.389-12.107-10.209l-158.723-23.065L269.452,20.157
@@ -27,12 +27,10 @@ export default {
   },
   methods: {
     selectElement: function () {
-      console.log(this.Element.id)
-      this.$emit("selectElement", this.Element.id)
+      this.$store.commit('selectElement', {
+        id: this.Element.id
+      })
       this.isClicked = true;
-    },
-    unselectElement: function () {
-      //this.isClicked = false;
     },
     onClickOutside(event) {
       let isClickInToolbar = false;
@@ -45,7 +43,9 @@ export default {
       }
       if (!isClickInToolbar) {
         this.isClicked = false;
-        this.$emit("unselectElement", this.Element.id)
+        this.$store.commit('unSelectElement', {
+          id: this.Element.id
+        })
       }
 
     },

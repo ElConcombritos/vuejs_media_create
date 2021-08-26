@@ -23,6 +23,10 @@
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "fetch": "^1.1.0",
+    "jquery": "^3.6.0",
+    "jsdom": "^16.4.0",
+    "location": "^0.0.1",
+    "navigator": "^1.0.1",
     "scriptjs": "^2.5.9",
     "svg.js": "^2.7.1",
     "tiptap": "^1.31.0",
@@ -33,20 +37,25 @@
     "vue": "^2.6.12",
     "vue-click-outside": "^1.1.0",
     "vue-color": "^2.8.1",
+    "vue-loader": "^15.9.8",
     "vue-quill-editor": "^3.0.6",
-    "vuejs-quill": "^1.4.0"
+    "vue-router": "^3.2.0",
+    "vuejs-quill": "^1.4.0",
+    "vuex": "^3.6.2",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "@caohenghu/vue-colorpicker": "^1.2.4",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^5.0.0",
-    "sass-loader": "^10.1.1",
-    "vue-template-compiler": "^2.6.11"
+    "sass-loader": "latest",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.46.0"
   },
   "eslintConfig": {
     "root": true,

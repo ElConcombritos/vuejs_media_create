@@ -32,11 +32,16 @@
     <div style="height: 100%" v-if="Element.type === 'banana'">
       <banana-form :Element="Element"></banana-form>
     </div>
-
     <div style="height: 100%" v-if="Element.type === 'text'">
       <TextEditor v-on:changeContent="changeContent" v-on:selectedTextEditor="selectedTextEditor"
                   v-on:unselectedTextEditor="unselectedTextEditor" :Text="Element"></TextEditor>
     </div>
+
+    <!-- MODULE -->
+
+    <div style="height: 100%" v-if="Element.type === 'accident'">
+    <accident :Element="Element"></accident>
+  </div>
   </vue-draggable-resizable>
 </template>
 <script>
@@ -49,10 +54,11 @@ import PolyForm from "@/components/form/PolyForm";
 import StarForm from "@/components/form/StarForm";
 import BananaForm from "@/components/form/BananaForm";
 import TriangleForm from "@/components/form/TriangleForm";
+import Accident from "@/components/module/Accident";
 
 export default {
   name: "Element",
-  components: {TriangleForm, BananaForm, StarForm, PolyForm, RectForm, CircleForm, TextEditor, ImageElement},
+  components: {Accident, TriangleForm, BananaForm, StarForm, PolyForm, RectForm, CircleForm, TextEditor, ImageElement},
   props: {
     Element: Object,
     widthCadre: Number,
@@ -105,7 +111,7 @@ export default {
   computed: {
     style() {
       if (this.Element.hover){
-        return "border : 1px solid black"
+        return "outline : 1px solid black"
       }
       else {
         return ""

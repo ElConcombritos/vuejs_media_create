@@ -79,6 +79,7 @@ const oldElements = []
 const baseElements = []
 const savedElements = []
 
+//Texts est useless
 const Texts = [
   {
     id: 0,
@@ -99,7 +100,8 @@ const Texts = [
     toolbarVisibility: "none",
   },
 ]
-let Elements = [
+
+let Elements2 = [
   {
     id: 0,
     grid: [1, 1],
@@ -113,8 +115,6 @@ let Elements = [
     toolbarVisibility: "none",
     zindex: 1,
     hover: false,
-
-
   },
   {
     id: 1,
@@ -129,8 +129,6 @@ let Elements = [
     toolbarVisibility: "none",
     zindex: 1,
     hover: false,
-
-
   },
   {
     id: 2,
@@ -145,8 +143,6 @@ let Elements = [
     color: "hsl(0,61%,48%)",
     zindex: 1,
     hover: false,
-
-
   },
   {
     id: 3,
@@ -175,10 +171,12 @@ let Elements = [
     zindex: 1,
     hover: false,
   },
+
 ]
 
 import Element from './Element.vue'
 import CanvasDraw from "@/components/CanvasDraw";
+import { mapState } from 'vuex'
 
 export default {
   name: "Cadre",
@@ -196,7 +194,7 @@ export default {
   data: function () {
     return {
       Texts,
-      Elements,
+      Elements : this.$store.state.elements,
       oldElements,
       savedElements,
       savedRedoElements : [],
@@ -329,7 +327,6 @@ export default {
       this.$set(this.Elements[idText], 'content', html)
       if (isChanged) {
         this.saveUndo()
-
       }
     },
     onElementDrag: function (idElement, x, y) {
@@ -450,41 +447,14 @@ export default {
       this.emptyArrays();
     },
     saveElements: async function () {
-      //let textJson = JSON.stringify(this.Texts);
-      let ElementJson = JSON.stringify(this.Elements);
-      const jsonPost = {action: 'saveElements', 'jsonE': ElementJson};
-      axios.post('http://back.test/back.php', jsonPost)
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+      await this.$store.dispatch('saveElements')
     },
     loadElement: function () {
-      const jsonPost = {action: 'loadElements'};
-      let fuck = this;
-      this.emptyArrays()
-      axios.post('http://back.test/back.php', jsonPost)
-          .then(function (response) {
-            console.log(response);
-            let res = JSON.parse(response.data.element);
-            for (let i in res) {
-              fuck.Elements.push(res[i]);
-              //fuck.$set(Texts[res[i].id], 'content', res[i].content)
-            }
-            res = JSON.parse(response.data.text);
-            for (let i in res) {
-              fuck.Texts.push(res[i]);
-              //fuck.$set(Texts[res[i].id], 'content', res[i].content)
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+      this.$store.dispatch('loadElements')
     },
   },
   computed: {
+    ...mapState(['elements']),
     style() {
       return 'width: ' + this.widthCadre + "px;" + 'height: ' + this.heightCadre + "px;" + 'font-size: ' + this.widthCadre / 96 + "px;"
     },

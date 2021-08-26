@@ -66,7 +66,7 @@ export default {
       y: 0,
       rotation: 0,
       isClicked: false,
-      toolbar: ".toolbar" + this.Text.id,//marche pas quand on l'utilise pour définir le container de la toolbar
+      //toolbar: ".toolbar" + this.Text.id,//marche pas quand on l'utilise pour définir le container de la toolbar
       editorOption: {
         theme: 'snow',
         modules: {
